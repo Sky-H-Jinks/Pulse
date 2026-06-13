@@ -106,3 +106,5 @@ Then follow each service's README. Ports: `control-plane` 5000 · `ingest` 8080 
 - Every service is self-contained: own README, own Dockerfile, own tests, no cross-folder imports.
 - The only shared dependency between services is Postgres and the HTTP contracts above.
 - CI runs per service using path filters, so a dashboard change never rebuilds the Rust service.
+
+## Note - Claude (code) was used for the .NET aspect. This project is so I can learn Go, Python, Rust and React, in addition to using agentic AI tooling to build projects, as I already have years of experience with .NET, I can quality check the work within C#.
