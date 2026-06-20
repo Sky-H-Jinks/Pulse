@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/shirou/gopsutil/v4/cpu"
@@ -153,7 +157,7 @@ func collectCpuInfo() (CpuPayload, error) {
 	return CpuPayload{CpuData: cpuData}, nil
 }
 
-func main() {
+func collectAndEmit() {
 	memPayload, memErr := collectMemoryInfo()
 	if memErr != nil {
 		log.Printf("error collecting memory info: %v", memErr)
@@ -199,4 +203,30 @@ func main() {
 	}
 
 	fmt.Printf("Payload: %+v\n", string(jsonData))
+}
+
+func goodbyeAndEmit(ctx context.Context) {
+	// Collect reason for shutdown and notify server of scheduled shutdown alongside any existing system data collected
+}
+
+func main() {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	log.Println("Starting system info collection...")
+	collectAndEmit()
+
+	for {
+		select {
+		case <-ctx.Done():
+			//goodbyeAndEmit(ctx)
+			log.Println("Shutting down system info collection...")
+			return
+		case <-ticker.C:
+			collectAndEmit()
+		}
+	}
 }
