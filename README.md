@@ -4,6 +4,8 @@
 
 > Self-hosted monitoring with a brain. Uptime + host metrics + alerting, with AI incident summaries. A polyglot system built to learn Go, Rust, and Python while showcasing C# and React.
 
+Status: agent → ingest → Postgres pipeline working; control plane in progress; intelligence and dashboard planned
+
 ## Languages & why each is here
 
 | Service | Language | Learning goal |
