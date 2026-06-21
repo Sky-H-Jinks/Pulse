@@ -65,10 +65,6 @@ fn validate_smaller_than<T: PartialOrd + std::fmt::Display>(x: &T, y: &T) -> Res
     Ok(())
 }
 
-fn validate_larger_than<T: PartialOrd + std::fmt::Display>(x: &T, y: &T) -> Result<(), String> {
-    validate_smaller_than(y, x)
-}
-
 fn validate_is_inbetween<T: PartialOrd + std::fmt::Display>(x: &T, smallest_value: &T, largest_value: &T, allow_largest_value: bool) -> Result<(), String> {
 
     let is_invalid = if allow_largest_value {
