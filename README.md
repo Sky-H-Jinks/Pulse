@@ -1,3 +1,5 @@
+![Pulse — self-hosted observability across five languages](docs/pulse-card.png)
+
 # Pulse
 
 > Self-hosted monitoring with a brain. Uptime + host metrics + alerting, with AI incident summaries. A polyglot system built to learn Go, Rust, and Python while showcasing C# and React.
