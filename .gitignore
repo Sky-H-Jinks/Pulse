@@ -1,0 +1,55 @@
+# ---- Rust (Ingest) ----
+target/
+**/*.rs.bk
+# Cargo.lock IS committed for binaries (apps), so it is NOT ignored
+
+# ---- .NET / C# (Control_Plane) ----
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+# EF migration artifacts are committed; build output above is not
+
+# ---- Go (Agent) ----
+# Compiled agent binaries (adjust names if yours differ)
+Agent/agent
+Agent/agent.exe
+Agent/agent-*
+**/*.exe
+**/*.test
+**/*.out
+
+# ---- Node / React (dashboard, when it exists) ----
+node_modules/
+dist/
+.vite/
+*.local
+
+# ---- Python (intelligence, when it exists) ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# ---- Secrets / environment ----
+.env
+.env.*
+!.env.example
+appsettings.Development.json
+appsettings.*.Local.json
+
+# ---- IDE / editor / OS ----
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.DS_Store
+Thumbs.db
+*.swp

@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -141,7 +143,21 @@ func collectAndEmit() {
 		log.Fatalf("Error marshaling JSON: %v", err)
 	}
 
-	fmt.Printf("Payload: %+v\n", string(jsonData))
+	resp, err := http.Post(
+		"http://localhost:8080/api/v1/ingest",
+		"application/json",
+		bytes.NewReader(jsonData),
+	)
+
+	if err != nil {
+		log.Printf("error shipping payload: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated {
+		log.Printf("ingest returned unexpected status: %d", resp.StatusCode)
+	}
 }
 
 //func goodbyeAndEmit(ctx context.Context) {
