@@ -8,6 +8,8 @@ use crate::routes::ingest_handler;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    dotenvy::dotenv().ok();
+
     let url = std::env::var("DATABASE_URL")?;
     let pool = PgPoolOptions::new().max_connections(5).connect(&url).await?;
     println!("db connected");
