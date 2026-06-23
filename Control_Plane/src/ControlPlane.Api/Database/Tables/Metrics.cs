@@ -7,6 +7,7 @@ public class Metrics
 {
     public int Id { get; set; }
     public int HostId { get; set; }
+    public DateTime Timestamp { get; set; }
     public CPU CPU { get; set; }
     public Memory Memory { get; set; }
     public Disk Disk { get; set; }
@@ -26,6 +27,9 @@ public class MetricsConfiguration : IEntityTypeConfiguration<Metrics>
             .ValueGeneratedOnAdd();
 
         builder.Property(x => x.HostId);
+        builder.Property(x => x.Timestamp)
+            .HasColumnType("timestamptz")
+            .IsRequired();
 
         builder.HasOne(x => x.Host)
             .WithMany(h => h.Metrics)

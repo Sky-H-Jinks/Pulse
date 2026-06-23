@@ -1,4 +1,7 @@
+use sqlx::types::chrono;
+
 use serde::Deserialize;
+use chrono::{DateTime, Utc};
 
 #[derive(Deserialize, Debug)]
 #[allow(dead_code)]
@@ -9,7 +12,7 @@ pub struct Payload {
 #[derive(Deserialize, Debug)]
 #[allow(dead_code)]
 pub struct SystemInfo {
-    pub timestamp: String,
+    pub timestamp: DateTime<Utc>,
     pub cpu: CpuPayload,
     pub memory: MemoryPayload,
     pub disk: DiskPayload,

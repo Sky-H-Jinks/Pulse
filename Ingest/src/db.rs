@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use sqlx::{PgPool, Postgres, Transaction};
 use crate::payload::{CpuPayload, DiskPayload, HostPayload, MemoryPayload, Payload, SystemInfo, NetworkPayload};
 
@@ -12,7 +13,7 @@ async fn insert_entry(pool: &PgPool, payload: &SystemInfo) -> Result<(), sqlx::E
     let mut tx = pool.begin().await?;
     
     let host_id  = upsert_host(&mut tx, &payload.host).await?;
-    let metric_id = insert_metric(&mut tx, host_id).await?;
+    let metric_id = insert_metric(&mut tx, host_id, &payload.timestamp).await?;
     insert_cpu(&mut tx, metric_id, &payload.cpu).await?;
     insert_disk(&mut tx, metric_id, &payload.disk).await?;
     insert_memory(&mut tx, metric_id, &payload.memory).await?;
@@ -48,9 +49,10 @@ async fn upsert_host(tx: &mut Transaction<'_, Postgres>, host: &HostPayload) -> 
     }
 }
 
-async fn insert_metric(tx: &mut Transaction<'_, Postgres>, host_id: i32) -> Result<i32, sqlx::Error> {
-    let row: (i32,) = sqlx::query_as(r#"INSERT INTO "Metrics" ("HostId") VALUES ($1) RETURNING "Id""#)
+async fn insert_metric(tx: &mut Transaction<'_, Postgres>, host_id: i32, timestamp: &DateTime<Utc>) -> Result<i32, sqlx::Error> {
+    let row: (i32,) = sqlx::query_as(r#"INSERT INTO "Metrics" ("HostId", "Timestamp") VALUES ($1, $2) RETURNING "Id""#)
         .bind(host_id)
+        .bind(timestamp)
         .fetch_one(tx.as_mut())
         .await?;
 
