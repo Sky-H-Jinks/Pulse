@@ -10,14 +10,14 @@ namespace ControlPlane.Api.Endpoints.Hosts;
 public class HostsController : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Database.Tables.Host>>> GetHosts(ControlPlaneDbContext dbContext)
+    public async Task<ActionResult<IEnumerable<Database.Tables.Host>>> GetHosts([FromServices] ControlPlaneDbContext dbContext)
     {
         var hosts = await dbContext.Hosts.AsNoTracking().ToListAsync();
         return Ok(hosts);
     }
 
     [HttpGet("{id}/metrics")]
-    public async Task<ActionResult<IEnumerable<MetricDTO>>> GetHostMetrics(int id, ControlPlaneDbContext dbContext, DateTime? from = null, DateTime? to = null)
+    public async Task<ActionResult<IEnumerable<MetricDTO>>> GetHostMetrics(int id, [FromServices] ControlPlaneDbContext dbContext, DateTime? from = null, DateTime? to = null)
     {
         var host = await dbContext.Hosts.FindAsync(id);
         if (host == null)

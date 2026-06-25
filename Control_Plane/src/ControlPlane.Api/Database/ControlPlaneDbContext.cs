@@ -16,9 +16,11 @@ public class ControlPlaneDbContext : DbContext
     public DbSet<Memory> Memory { get; set; }
     public DbSet<Metrics> Metrics { get; set; } 
     public DbSet<Network> Networks { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresExtension("citext");
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

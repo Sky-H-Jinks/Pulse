@@ -7,6 +7,8 @@ public class ControlPlaneDbContextFactory : IDesignTimeDbContextFactory<ControlP
 {
     public ControlPlaneDbContext CreateDbContext(string[] args)
     {
+        DotNetEnv.Env.Load();
+
         var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddEnvironmentVariables()
