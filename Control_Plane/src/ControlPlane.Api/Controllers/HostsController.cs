@@ -1,10 +1,12 @@
 using ControlPlane.Api.Database;
 using ControlPlane.Api.Dtos.Hosts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControlPlane.Api.Endpoints.Hosts;
 
+[Authorize]
 [ApiController]
 [Route("api/[Controller]")]
 public class HostsController : ControllerBase
